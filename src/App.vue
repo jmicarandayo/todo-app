@@ -2,19 +2,23 @@
   <div id="nav">
     <NavBar :showSignUp="showSignUp" 
     @openSignUp="openSignUpModal"
-     @openSignIn="openSignInModal"/>
+     @openSignIn="openSignInModal"
+     :user="user"
+     @userOut="updateStatus($event)"/>
     <div v-if="showSignUp">
     <SignUp 
     @close="closeSignUpModal"
-    @openSignIn="switchModal"/>
+    
+    :switchModal="switchModal"/>
     </div>
     <div v-if="showSignIn">
     <SignIn 
     @close="closeSignInModal"
-    @openSignUp="switchModal"/>
+    @openSignUp="switchModal"
+    :closeSignInModal="closeSignInModal"/>
     </div>
   </div>
-  <router-view @open="openSignUpModal"/>
+  <router-view @open="openSignUpModal" @loggedIn="updateStatus($event)"/>
 </template>
 
 
@@ -31,7 +35,8 @@ export default {
   data () {
     return {
       showSignUp: false,
-      showSignIn: false
+      showSignIn: false,
+      user: ''
     }
   },
   methods: {
@@ -50,6 +55,9 @@ export default {
     switchModal() {
       this.showSignIn = !this.showSignIn
       this.showSignUp = !this.showSignUp
+    },
+    updateStatus(status) {
+      this.user = status
     }
   }
 }

@@ -5,10 +5,13 @@
              <h2>welcome</h2>
              <button class="modal-close-btn" @click="closeModal">X</button>
          </div>
-         <form class="sign-in-form">
-             <input type="email" placeholder="Email">
-             <input type="password" placeholder="Password">
-             <button class="submit-btn">sign up</button>
+         <form @submit.prevent="handleLogin" class="sign-in-form">
+             <input type="email" placeholder="Email" v-model="email">
+             <input type="password" placeholder="Password" v-model="password">
+             <div class="error-display">
+                 {{ error }}
+             </div>
+             <button class="submit-btn">sign in</button>
              <div class="links">
                 <p class="sign-up" @click="openSignUp">sing up</p>
                 <p>Forgot you password?</p>
@@ -20,13 +23,62 @@
 </template>
 <script>
 
+import axios from 'axios'
+
 export default {
+    props: [ 'closeSignInModal' ],
+    data() {
+        return {
+            email: '',
+            password: '',
+            error: ''
+        }
+    },
     methods: {
         closeModal() {
             this.$emit('close')
         },
         openSignUp() {
             this.$emit('openSignUp')
+        },
+        handleLogin() {
+            const user = {
+                email: this.email,
+                password: this.password
+            }
+            console.log(user)
+            if(this.errorChecking()) {
+                this.error = ''
+                axios.post('http://localhost:5000/login', user)
+                    .then(res => {
+                        if(res.status === 200) {
+                            localStorage.setItem('token', res.data.token)
+                            this.closeSignInModal()
+                            !this.$router.push('/dashboard')
+                        }
+                    }
+                    , err => {
+                        console.log(err.response)
+                        this.error = err.response.data.error
+                    }
+                    )
+                    // .catch(err => {
+                    //     console.log(err)
+                    // })
+            }
+        },
+        errorChecking() {
+            if( this.email == null || !this.validateEmail(this.email)) {
+                this.error = 'Please enter a valid email address'
+            } else if (this.password.length < 6) {
+                this.error = 'The password must be 6 characters long or more'
+            } else {
+                return true;
+            }
+        },
+        validateEmail(email) {
+                        var re = /\S+@\S+\.\S+/;
+                        return re.test(email);
         }
     }
 }
@@ -57,6 +109,11 @@ display: flex;
     padding: 2em;
     display: flex;
     justify-content: space-between;
+}
+.sign-in-form .error-display {
+    text-align: center;
+    color: #e04848;
+    margin: .5em;
 }
 .sign-in h2 {
     text-transform: capitalize;

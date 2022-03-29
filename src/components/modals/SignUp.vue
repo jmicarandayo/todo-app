@@ -6,32 +6,34 @@
              <button class="modal-close-btn" @click="closeModal">X</button>
          </div>
          <form @submit.prevent="handleSubmit" class="signup-form">
-             <input type="text" placeholder="Email" v-model="user.email">
-             <input type="password" placeholder="Password" v-model="user.password">
+             <input type="text" placeholder="Email" v-model="email">
+             <input type="password" placeholder="Password" v-model="password">
              <div class="error-display">
                  {{ error }}
              </div>
              <div class="terms-condition">
-                 <input type="checkbox" v-model="user.terms">
+                 <input type="checkbox" v-model="terms">
                  <span>I accept the </span><a href="/terms">terms and condition</a>
                  <a href=""></a>
              </div>
              <button class="submit-btn">sign up</button>
          </form>
-         <p>Already registered? <span @click="openSignIn">Sign In</span></p>
+         <p>Already registered? <span @click="switchModal">Sign In</span></p>
      </div>
  </div>
 </template>
 <script>
 
+import axios from 'axios'
+
 export default {
+    props: ['switchModal'],
     data () {
         return {
-            user: {
-                email: '',
-                password:'',
-                terms: false,
-            },
+            
+            email: '',
+            password:'',
+            terms: false,
             error: ''
         }
     },
@@ -43,25 +45,44 @@ export default {
             this.$emit('openSignIn')
         },
         handleSubmit() {
-            console.log(this.user)
-            this.errorChecking()
-            console.log(this.error)
+            const newUser = {
+                email : this.email,
+                password : this.password,
+            }
+            if(this.errorChecking()){
+                axios.post('http://localhost:5000/signup', newUser)
+                    .then(res => {
+                        console.log(newUser);
+                        console.log('registered successfully')
+                        console.log(res)
+                        this.switchModal();
+                    }
+                    // , err => {
+                    //     console.log(err.response)
+                    // }
+                    )
+                    .catch(err => {
+                        console.log(err)
+                        this.error = 'Email is already in use'
+                    })
+            }
+            
         },
         errorChecking() {
-            if( this.user.email == null || !this.validateEmail(this.user.email)) {
+            if( this.email == null || !this.validateEmail(this.email)) {
                 this.error = 'Please enter a valid email address'
-            } else if (this.user.password.length < 6) {
+            } else if (this.password.length < 6) {
                 this.error = 'The password must be 6 characters long or more'
-            } else if (this.user.terms == false) {
+            } else if (this.terms == false) {
                 this.error = 'Please read and accept the terms and conditions'
             } else {
-                this.error = null;
+                return true;
             }
         },
         validateEmail(email) {
                         var re = /\S+@\S+\.\S+/;
                         return re.test(email);
-                    }
+        }
 }
 }
 
