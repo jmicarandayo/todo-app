@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const User = require('./models/User')
+const User = require('./models/User');
+const Task = require('./models/Task');
 require('dotenv/config')
 
 
@@ -99,6 +100,45 @@ app.get('/user', (req, res) => {
         }
     )
     
+})
+
+//add task 
+app.post('/add-task', (req,res) => {
+    console.log(req.body)
+    const newtask = new Task({
+        title: req.body.title,
+        details: req.body.details,
+        type: req.body.type
+    })
+    newtask.save(err => {
+        if(err) {
+            console.log(err)
+            return res.status(400).json({
+                title: 'error',
+                error: 'task already exist'
+            })
+        }
+            return res.status(200).json({
+            title: 'success',
+            message: 'Task successfully added'
+        })
+    })
+})
+
+// get all tasks
+app.get('/tasks', (req, res) => {
+    Task.find({}, (err, tasks) => {
+        if(err) {
+            return res.status(400).json({
+                title: 'error',
+                error: 'no tasks available'
+            })
+        }
+        return res.status(200).json({
+            title: 'Tasks grabbed',
+            tasks
+        })
+    })
 })
 
 // port 

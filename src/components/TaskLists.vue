@@ -1,0 +1,112 @@
+<template>
+  <div>
+    <!-- <div class="table">
+   <div v-for="task in tasks" :key="task._id" class="task">
+        <p>{{task.title}}</p>
+        <p>{{task.details}}</p>
+        <p>{{task.type}}</p>
+    </div>
+    </div> -->
+    <div class="table-container">
+        <div class="table-caption"><p>All Task</p></div>
+            <div class="table-header">
+                <div class="table-header-cell">title</div>
+                <div class="table-header-cell">details</div>
+                <div class="table-header-cell">type</div>
+                <div class="table-header-cell">actions</div>
+                <div class="table-header-cell">completed</div>
+            </div>
+            <div v-for="task in showSelected" :key="task._id" class="table-body">
+                <div class="table-body-cell">{{ task.title }}</div>
+                <div class="table-body-cell">{{ task.details }}</div>
+                <div class="table-body-cell">{{ task.type }}</div>
+                <div class="table-body-cell">
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
+                <div class="table-body-cell">
+                    <input v-model="task.done" type="checkbox" >
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['tasks', 'type'],
+    computed: {
+        showSelected() {
+            return this.tasks.filter(task => {
+                if(this.type === 'all') {
+                    return true
+                }
+                return task.type === this.type
+            })
+        }
+    },
+    // methods: {
+
+    // }
+}
+</script>
+
+<style>
+/* .table-body-cell:nth-last-child(1) {
+    text-align: center;
+} */
+.table-container {
+    width: 100%;
+    background-color: rgba(0, 0, 0, .2);
+    display: table;
+    color: black;
+    padding: 1.5em;
+}
+.table-caption {
+    display: table-caption;
+    text-align: center;
+    font-size: 2em;
+    font-weight: 700;
+    
+}
+.table-header {
+    display:table-header-group;
+    background-color: gray;
+    font-weight: 700;
+    font-size: 1.5em;
+    text-transform: capitalize;
+}
+.table-header-cell {
+    display: table-cell;
+    text-align: justify;
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+.table-body {
+    display: table-row-group;
+    
+}
+.table-body-cell {
+    display: table-cell;
+    padding: 10px;
+    margin: 5px;
+    background-color: aquamarine;
+}
+/* .table-header-cell {
+display: table-cell;
+padding: 10px;
+text-align: justify;
+border-bottom: 1px solid black;
+}
+#resp-table-body {
+display: table-row-group;
+}
+.table-body-cell {
+display: table-cell;
+}
+.task {
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+} */
+</style>

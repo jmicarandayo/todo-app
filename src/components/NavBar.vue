@@ -1,8 +1,12 @@
 <template>
 <div class="navbar">
-    <div class="brand-title">
+    <div v-if="!user" class="brand-title">
     DemoProj
-</div>
+    </div>
+    <div v-else class="user-menu">
+        <router-link class="menu-link" to="/dashboard">Dashboard</router-link>
+        <router-link class="menu-link" to="/tasks">Tasks</router-link>
+    </div>
 <div class="navbar-links">
     <div v-if="!user">
         <button class="sign-in-btn" @click="handleSignInModal">
@@ -48,6 +52,16 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.navbar .user-menu {
+
+}
+.navbar .user-menu .menu-link {
+    text-decoration: none;
+    color: #fff;
+    margin-right: 1em;
+    font-size: 1.2em;
+
 }
 .navbar .navbar-links {
     display: flex;
