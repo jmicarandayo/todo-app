@@ -8,7 +8,7 @@
     </div>
     </div> -->
     <div class="table-container">
-        <div class="table-caption"><p>All Task</p></div>
+        <div class="table-caption"><p></p></div>
             <div class="table-header">
                 <div class="table-header-cell">title</div>
                 <div class="table-header-cell">details</div>
@@ -21,8 +21,8 @@
                 <div class="table-body-cell">{{ task.details }}</div>
                 <div class="table-body-cell">{{ task.type }}</div>
                 <div class="table-body-cell">
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    <button @click="editTask(task._id)">Edit</button>
+                    <button @click="deleteTask(task.title, task._id)">Delete</button>
                 </div>
                 <div class="table-body-cell">
                     <input v-model="task.done" type="checkbox" >
@@ -33,21 +33,17 @@
 </template>
 
 <script>
-export default {
-    props: ['tasks', 'type'],
-    computed: {
-        showSelected() {
-            return this.tasks.filter(task => {
-                if(this.type === 'all') {
-                    return true
-                }
-                return task.type === this.type
-            })
-        }
-    },
-    // methods: {
 
-    // }
+export default {
+    props: ['tasks', 'type', 'showSelected'],
+    methods: {
+        deleteTask(taskTitle, taskId) {
+            this.$emit('deleteTask', taskTitle, taskId)
+        },
+        editTask(taskId) {
+            this.$emit('editTask', taskId)
+        }
+    }
 }
 </script>
 

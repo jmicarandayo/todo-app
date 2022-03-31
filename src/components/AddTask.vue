@@ -1,7 +1,8 @@
 <template>
 <div class="backdrop-task">
-    <div class="add-task">
-        <h1>Add Task</h1>
+    <div class="add-task center">
+        <h1 class="title-text">Add Task</h1>
+        <div class="close-btn" @click="closeModal">X</div>
         <form @submit.prevent="handleAddTask" class="add-task-form">
             <div class="input-box">
                 <label>Title:</label>
@@ -18,7 +19,7 @@
                     <option value="weekly">Weekly</option>
                 </select>
             </div>
-            <div class="btn-container">
+            <div class="btn-container-add">
                 <button>Add Task</button>
             </div>
         </form>
@@ -49,11 +50,17 @@ export default {
             axios.post('http://localhost:5000/add-task', newTask)
                 .then(res => {
                     console.log(res)
+                    this.title = ''
+                    this.details = ''
+                    this.type = 'daily'
                 }, err => {
                     console.log(err.response)
                 })
                 .catch(err => console.log(err))
-        }
+        },
+         closeModal(){
+             this.$emit('closeAddTask')
+         }
     }
 }
 </script>
@@ -73,10 +80,19 @@ export default {
     background-color: white;
     max-width: 600px;
     width: 90%;
-    margin: 20px auto;
     border-radius: 10px;
+    padding: 1.5em;
 }
-.add-task-form .btn-container {
+.add-task .close-btn {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+    cursor: pointer;
+}
+.add-task .title-text {
+    margin: 0;
+}
+.add-task-form .btn-container-add {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,7 +106,7 @@ export default {
     border-radius: 5px;
     width: 50%;
     padding: .8em;
-    margin-bottom: 20px;
+    margin: 20px 0;
     cursor: pointer;
 }
 .add-task .add-task-form {

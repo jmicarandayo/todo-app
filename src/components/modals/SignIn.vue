@@ -1,6 +1,6 @@
 <template>
  <div class="backdrop" @click.self>
-     <div class="modal-sign-in">
+     <div class="modal-sign-in center">
          <div class="sign-in">
              <h2>welcome</h2>
              <button class="modal-close-btn" @click="closeModal">X</button>
@@ -97,7 +97,7 @@ export default {
 }
 .modal-sign-in {
     max-width: 600px;
-    margin: 150px auto;
+    width: 90%;
     background-color: #fff;
     border-radius: 20px;
     

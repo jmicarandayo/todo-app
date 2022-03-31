@@ -1,6 +1,6 @@
 <template>
  <div class="backdrop" @click.self>
-     <div class="modal-signup">
+     <div class="modal-signup center">
          <div class="signup">
              <h2>sign up</h2>
              <button class="modal-close-btn" @click="closeModal">X</button>
@@ -100,10 +100,9 @@ export default {
 }
 .modal-signup {
     max-width: 600px;
-    margin: 150px auto;
+    width: 90%;
     background-color: #fff;
     border-radius: 20px;
-    
 }
 .modal-signup .terms-condition{
 display: flex;

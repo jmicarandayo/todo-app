@@ -141,5 +141,20 @@ app.get('/tasks', (req, res) => {
     })
 })
 
+//delete a task
+app.delete('/tasks/:id', (req, res) => {
+    Task.deleteOne({_id: req.params.id}, (err, task) => {
+        if(err) {
+            return res.status(400).json({
+                title: 'error',
+                error: err
+            })
+        }
+        return res.status(200).json({
+            title: 'success',
+            message: 'Successfully deleted'
+        })
+    })
+})
 // port 
 const port = process.env.PORT || 5000;
