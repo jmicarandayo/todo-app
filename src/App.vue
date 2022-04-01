@@ -36,7 +36,7 @@ export default {
     return {
       showSignUp: false,
       showSignIn: false,
-      user: ''
+      user: null,
     }
   },
   methods: {

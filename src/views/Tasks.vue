@@ -5,16 +5,22 @@
         <button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}">{{tab}}  </button>
     </div>
     <form class="search-form">
-        <input type="text" placeholder="Search">
+        <input v-model="search" type="text" placeholder="Search" @keyup="searchTask">
+        <!-- <p>{{ search }}</p>
+        <button>search</button> -->
     </form>  
     </div>
-    <TaskLists :tasks="tasks" :type="type" @deleteTask="deleteTask" :showSelected="showSelected"/>
+    <TaskLists :tasks="tasks" :type="type" @deleteTask="deleteTask" :showSelected="showSelected" @openEdit="openEdit"/>
     <div class="btn-container">
-        <button @click="openAddModal" class="new-task-btn">new task</button>
-        <button class="save-btn">save</button>
+        <button v-if="!(activeTab == 'completed')" @click="openAddModal" class="new-task-btn">new task</button>
+        <button v-if="activeTab == 'completed'" @click="deleteCompleted" class="new-task-btn">delete completed</button>
+        <button @click="saveCompleted" class="save-btn">save</button>
     </div>
     <div v-if="showAddTask">
         <AddTask @closeAddTask="closeAddModal"/>
+    </div>
+    <div v-if="showEditTask">
+        <EditTask @closeEditTask="closeEdit" :idToEdit="idToEdit"/>
     </div>
 </div>
 </template>
@@ -22,47 +28,71 @@
 <script>
 import AddTask from '../components/AddTask.vue'
 import TaskLists from '../components/TaskLists.vue'
+import EditTask from '../components/EditTask.vue'
 
 import axios from 'axios'
 
+
 export default {
     components: {
-        AddTask,
-        TaskLists
-    },
+    AddTask,
+    TaskLists,
+    EditTask
+},
     data() {
         return {
             tabs:['all', 'daily', 'weekly', 'completed'],
             tasks: [],
+            originalTask:[],
             type: 'all',
             activeTab: 'all',
-            showAddTask: false
+            search:null,
+            searchedTask:null,
+            idToEdit: null,
+            task:null,
+            showAddTask: false,
+            showEditTask: false
         }
     },
-    // created(){
-    //     if(localStorage.getItem('token') === null) {
-    //     this.$router.push('/')
-    //     }
-    // }
+    created(){
+        if(localStorage.getItem('token') === null) {
+        this.$router.push('/')
+        }
+    },
     mounted() {
         axios.get('http://localhost:5000/tasks')
             .then(res => {
                 this.tasks = res.data.tasks
-                console.log(res)
-                console.log(this.tasks)
+                this.originalTask = res.data.tasks
             }, err => console.log(err))
     },
-    computed: {
+    computed: {  
         showSelected() {
-            return this.tasks.filter(task => {
+                return this.tasks.filter(task => {
                 if(this.type === 'all') {
                     return true
                 }
+                if(this.type === 'completed') {
+                    return task.done === true
+                }
                 return task.type === this.type
             })
-        }
+        },
+        
     },
     methods: {
+        // searchTask() {
+        //     this.searchedTask = this.tasks.filter(task => task.title.toLowerCase().includes(this.search))
+        //     if(this.searchedTask.length){
+        //         console.log(this.searchedTask.length)
+        //         this.tasks == this.searchedTask
+        //     console.log('current',this.tasks)  
+        //     console.log('searched',this.searchedTask)  
+        //     } else{
+        //         this.tasks = this.originalTask
+        //         console.log('oroginal',this.tasks)
+        //     }
+        // },
         setType(type) {
             this.type = type
             this.activeTab = type
@@ -79,12 +109,51 @@ export default {
                     
                 }, err => console.log(err.response))
         },
+        deleteCompleted() {
+             if (!window.confirm(`Are you sure you want to delete all completed task"?`)) {
+                return;
+            }
+            const completed = this.tasks.filter(task => task.done).map(task => task._id)
+            console.log(completed)
+            axios.post('http://localhost:5000/tasks/completed', completed)
+                .then(res => {
+                    if(res.status === 200) {
+                       location.reload()
+                    }
+                    
+                }, err => console.log(err.response))
+        },
+        openEdit(id) {
+            this.idToEdit = id
+            this.showEditTask = true
+        },
+        closeEdit(id) {
+            this.showEditTask = false
+        },
         openAddModal() {
             this.showAddTask = true
         },
         closeAddModal() {
-            // this.showAddTask = false
+            this.showAddTask = false
             location.reload()
+        },
+        saveCompleted() {
+            if (!window.confirm(`Are you sure you want to save completed task?`)) {
+                location.reload()
+                return;
+            }
+            const newTasks = this.tasks
+            console.log(newTasks)
+            axios.put('http://localhost:5000/task/edit-status/done', newTasks)
+                .then(res => {
+                    console.log(res)
+                }, err => console.log(err))
+                .catch(err => console.log(err))
+            axios.put('http://localhost:5000/task/edit-status/not-done', newTasks)
+                .then(res => {
+                    console.log(res)
+                }, err => console.log(err))
+                .catch(err => console.log(err))
         }
     }
 }

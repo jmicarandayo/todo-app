@@ -28,6 +28,10 @@
 
 export default {
     props: ['user'],
+    // computed() {
+    //     const local = localStorage.getItem('token')
+    //     this.user = local
+    // },
     methods: {
         handleSignUpModal() {
             this.$emit('openSignUp')

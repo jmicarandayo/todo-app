@@ -81,6 +81,7 @@ app.post('/login', (req, res) => {
     })
 })
 
+//get logged in user data
 app.get('/user', (req, res) => {
     let token = req.headers.token
     jwt.verify(token, 'demoproject', (err, decoded) => {
@@ -141,6 +142,80 @@ app.get('/tasks', (req, res) => {
     })
 })
 
+//get task for edit 
+app.get('/task/:id', (req, res) => {
+    Task.findOne({_id:req.params.id}, (err, task) => {
+        if(err) {
+            return res.status(400).json({
+                title: 'error',
+                error: err
+            })
+        }
+        return res.status(200).json({
+            title: 'task detail grabbed',
+            task
+        })
+    })
+})
+
+//edit task 
+app.put('/task/edit/:id', (req, res) => {
+
+    Task.findOneAndUpdate({_id: req.params.id}, {
+        title: req.body.title,
+        details: req.body.details,
+        type: req.body.type
+    }, {new:true}, (err, task) => {
+        if(err) {
+            return res.status(400).json({
+                 code: 400, message: "Employee updated failed." 
+            })
+        }
+        return res.status(200).json({
+            code: 200, message: "Employee updated successfully",
+            updateEmployee: task
+        })
+    })
+})
+
+
+//update task status done
+app.put('/task/edit-status/done', (req, res) => {
+    const idsTrue = req.body.filter(task => task.done === true).map(task => task._id)
+    Task.updateMany(
+        { _id: {$in: idsTrue}},
+        { $set: {done: true}},
+        (err, data) => {
+            if(err) {
+                return res.status(404).json({
+                    error: err
+                })
+            }
+            return res.status(200).json({
+                title:'update success'
+            })
+        }
+    )
+})
+//update task status not done
+app.put('/task/edit-status/not-done', (req, res) => {
+    const idsFalse = req.body.filter(task => task.done === false).map(task => task._id)
+    Task.updateMany(
+        { _id: {$in: idsFalse}},
+        { $set: {done: false}},
+        (err, data) => {
+            if(err) {
+                return res.status(404).json({
+                    error: err
+                })
+            }
+            return res.status(200).json({
+                title:'update success'
+            })
+        }
+    )
+})
+
 //delete a task
 app.delete('/tasks/:id', (req, res) => {
     Task.deleteOne({_id: req.params.id}, (err, task) => {
@@ -155,6 +230,23 @@ app.delete('/tasks/:id', (req, res) => {
             message: 'Successfully deleted'
         })
     })
+})
+
+app.post('/tasks/completed', (req, res) => {
+    const ids = req.body
+    Task.deleteMany(
+        {_id: {$in: ids}},
+        (err, data) => {
+            if(err){
+                return res.status(400).json({
+                    message: 'delete item failed'
+                })
+            }
+            return res.status(200).json({
+                message: 'Successfully deleted'
+            })
+        }
+    )
 })
 // port 
 const port = process.env.PORT || 5000;

@@ -21,7 +21,7 @@
                 <div class="table-body-cell">{{ task.details }}</div>
                 <div class="table-body-cell">{{ task.type }}</div>
                 <div class="table-body-cell">
-                    <button @click="editTask(task._id)">Edit</button>
+                    <button @click="openEdit(task._id)">Edit</button>
                     <button @click="deleteTask(task.title, task._id)">Delete</button>
                 </div>
                 <div class="table-body-cell">
@@ -40,8 +40,8 @@ export default {
         deleteTask(taskTitle, taskId) {
             this.$emit('deleteTask', taskTitle, taskId)
         },
-        editTask(taskId) {
-            this.$emit('editTask', taskId)
+        openEdit(taskId) {
+            this.$emit('openEdit', taskId)
         }
     }
 }
@@ -88,21 +88,4 @@ export default {
     margin: 5px;
     background-color: aquamarine;
 }
-/* .table-header-cell {
-display: table-cell;
-padding: 10px;
-text-align: justify;
-border-bottom: 1px solid black;
-}
-#resp-table-body {
-display: table-row-group;
-}
-.table-body-cell {
-display: table-cell;
-}
-.task {
-    padding: 1em;
-    display: flex;
-    justify-content: space-between;
-} */
 </style>
