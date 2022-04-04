@@ -18,7 +18,7 @@
     :closeSignInModal="closeSignInModal"/>
     </div>
   </div>
-  <router-view @open="openSignUpModal" @loggedIn="updateStatus($event)"/>
+  <router-view @open="openSignUpModal" @loggedIn="updateStatus($event)" :user="user"/>
 </template>
 
 

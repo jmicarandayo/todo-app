@@ -144,7 +144,7 @@ margin: .5em 0;
     text-transform: capitalize;
     border: 0;
     padding: .5em 2em;
-    background-color: aqua;
+    background-color: #DC143C;
     border-radius: 5px;
     width: 100%;
 }

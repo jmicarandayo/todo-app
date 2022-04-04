@@ -9,56 +9,60 @@
     </div>
 <div class="navbar-links">
     <div v-if="!user">
-        <button class="sign-in-btn" @click="handleSignInModal">
+        <!-- <button class="sign-in-btn" @click="handleSignInModal">
         sign in
     </button>
     <button class="sign-up-btn" @click="handleSignUpModal">
         sign up
-    </button>
+    </button> -->
+    <Button @click="handleSignInModal" class="sign-in-btn">sign in</Button>
+    <Button @click="handleSignUpModal" class="sign-up-btn">sign up</Button>
     </div>
-    <div v-else>
+    <!-- <div v-else>
         <button class="logout-btn" @click="logout">logout</button>
-    </div>
+    </div> -->
+   <Button v-else @click="logout">logout</Button>
 </div>
 </div>
 </template>
 
 <script>
-
+import Button from '../components/Button.vue'
 
 export default {
-    props: ['user'],
+    props: ["user"],
     // computed() {
     //     const local = localStorage.getItem('token')
     //     this.user = local
     // },
     methods: {
         handleSignUpModal() {
-            this.$emit('openSignUp')
+            this.$emit("openSignUp");
         },
         handleSignInModal() {
-            this.$emit('openSignIn')
+            this.$emit("openSignIn");
         },
         logout() {
-            this.$emit('userOut', null)
-            localStorage.clear()
-            this.$router.push('/')
+            this.$emit("userOut", null);
+            localStorage.clear();
+            this.$router.push("/");
         }
     },
+    components: { Button }
 }
 
 </script>
 
 <style>
 .navbar {
-    background-color: crimson;
+    background-color: #798897;
     padding: 1em 1.5em;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.navbar .user-menu {
-
+.navbar .brand-title {
+    color: #FFF6F4;
 }
 .navbar .user-menu .menu-link {
     text-decoration: none;
@@ -79,15 +83,17 @@ export default {
 {
     background-color: transparent;
     border: none;
-    color: #fff;
+    color: #FFF6F4;
+    box-shadow: none;
 }
 .navbar .navbar-links .sign-up-btn,
 .navbar .navbar-links .logout-btn {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: none;
-    background-color: aquamarine;
+    border: 1.5px solid #DC143C;
+    background-color: #FFF6F4;
     padding: .5em 1.2em;
     border-radius: 10px;
     margin-left: 2em;
+    color: #DC143C;
 }
 </style>

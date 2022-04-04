@@ -1,5 +1,5 @@
 <template>
-<h1>Welcome to Dashboard</h1>
+<h1 class="welcome-text">Welcome to Dashboard</h1>
     <!-- <h2>{{email}}</h2> -->
 </template>
 
@@ -35,7 +35,7 @@ export default {
 
 
 <style>
-h1 {
+.welcome-text {
     color: black;
     text-align: center;
     margin: 100px auto;

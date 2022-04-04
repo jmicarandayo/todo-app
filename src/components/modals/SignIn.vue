@@ -54,7 +54,7 @@ export default {
                         if(res.status === 200) {
                             localStorage.setItem('token', res.data.token)
                             this.closeSignInModal()
-                            !this.$router.push('/dashboard')
+                            this.$router.push('/dashboard')
                         }
                     }
                     , err => {

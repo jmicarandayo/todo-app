@@ -2,7 +2,8 @@
 <div class="task-container">
     <div class="sub-container">
         <div class="tab-container">
-        <button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}">{{tab}}  </button>
+        <!-- <button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}">{{tab}}  </button> -->
+        <Button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}"> {{tab}} </Button>
     </div>
     <form class="search-form">
         <input v-model="search" type="text" placeholder="Search" @keyup="searchTask">
@@ -12,9 +13,12 @@
     </div>
     <TaskLists :tasks="tasks" :type="type" @deleteTask="deleteTask" :showSelected="showSelected" @openEdit="openEdit"/>
     <div class="btn-container">
-        <button v-if="!(activeTab == 'completed')" @click="openAddModal" class="new-task-btn">new task</button>
-        <button v-if="activeTab == 'completed'" @click="deleteCompleted" class="new-task-btn">delete completed</button>
-        <button @click="saveCompleted" class="save-btn">save</button>
+        <!-- <button v-if="!(activeTab == 'completed')" @click="openAddModal" class="new-task-btn">new task</button> -->
+        <!-- <button v-if="activeTab == 'completed'" @click="deleteCompleted" class="new-task-btn">delete completed</button> -->
+        <!-- <button @click="saveCompleted" class="save-btn">save</button> -->
+        <Button v-if="!(activeTab == 'completed')" @click="openAddModal">new task</Button>
+        <Button v-if="activeTab == 'completed'" @click="deleteCompleted">delete completed</Button>
+        <Button @click="saveCompleted">save</Button>
     </div>
     <div v-if="showAddTask">
         <AddTask @closeAddTask="closeAddModal"/>
@@ -29,6 +33,8 @@
 import AddTask from '../components/AddTask.vue'
 import TaskLists from '../components/TaskLists.vue'
 import EditTask from '../components/EditTask.vue'
+import Button from '../components/Button.vue'
+
 
 import axios from 'axios'
 
@@ -37,13 +43,14 @@ export default {
     components: {
     AddTask,
     TaskLists,
-    EditTask
+    EditTask,
+    Button
 },
     data() {
         return {
             tabs:['all', 'daily', 'weekly', 'completed'],
             tasks: [],
-            originalTask:[],
+            originalTask:null,
             type: 'all',
             activeTab: 'all',
             search:null,
@@ -51,7 +58,8 @@ export default {
             idToEdit: null,
             task:null,
             showAddTask: false,
-            showEditTask: false
+            showEditTask: false,
+            email: null
         }
     },
     created(){
@@ -65,6 +73,14 @@ export default {
                 this.tasks = res.data.tasks
                 this.originalTask = res.data.tasks
             }, err => console.log(err))
+        axios.get('http://localhost:5000/user', { headers: {
+            token: localStorage.getItem('token')
+        }})
+        .then(res => {
+            this.email = res.data.user.email
+            console.log(this.email)
+            this.$emit('loggedIn', this.email)
+        })
     },
     computed: {  
         showSelected() {
@@ -81,18 +97,18 @@ export default {
         
     },
     methods: {
-        // searchTask() {
-        //     this.searchedTask = this.tasks.filter(task => task.title.toLowerCase().includes(this.search))
-        //     if(this.searchedTask.length){
-        //         console.log(this.searchedTask.length)
-        //         this.tasks == this.searchedTask
-        //     console.log('current',this.tasks)  
-        //     console.log('searched',this.searchedTask)  
-        //     } else{
-        //         this.tasks = this.originalTask
-        //         console.log('oroginal',this.tasks)
-        //     }
-        // },
+        searchTask() {
+            this.searchedTask = this.originalTask.filter(task => task.title.toLowerCase().includes(this.search))
+            if(this.search){
+                console.log(this.searchedTask.length)
+                this.tasks = this.searchedTask
+                console.log('current',this.tasks)  
+                console.log('searched',this.searchedTask)  
+            } else{
+                this.tasks = this.originalTask
+                console.log('oroginal',this.tasks)
+            }
+        },
         setType(type) {
             this.type = type
             this.activeTab = type
@@ -160,9 +176,6 @@ export default {
 </script>
 
 <style>
-h1, p {
-    color: #000;
-}
 
 .task-container {
     max-width: 1400px;
@@ -180,7 +193,7 @@ h1, p {
     justify-content: space-between;
     padding: 1.5em;
 }
-.sub-container .tab-container button,
+/* .sub-container .tab-container button,
 .task-container .btn-container button {
     border: 0;
     margin-right: .5em ;
@@ -191,7 +204,7 @@ h1, p {
     font-weight: 600;
     letter-spacing: .1em;
     cursor: pointer;
-}
+} */
 .save-btn {
     background-color: #0055B8;
     color: white;
