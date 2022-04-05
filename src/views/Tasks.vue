@@ -3,10 +3,16 @@
     <div class="sub-container">
         <div class="tab-container">
         <!-- <button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}">{{tab}}  </button> -->
-        <Button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}"> {{tab}} </Button>
+        <Button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}" class="tab-btn"> {{tab}} </Button>
     </div>
     <form class="search-form">
-        <input v-model="search" type="text" placeholder="Search" @keyup="searchTask">
+        <input v-model="search" placeholder="Search" @keyup="searchTask">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- <InputField
+            class="search"
+            v-model="search"
+            label="search"
+            @keyup="searchTask"/> -->
         <!-- <p>{{ search }}</p>
         <button>search</button> -->
     </form>  
@@ -16,9 +22,10 @@
         <!-- <button v-if="!(activeTab == 'completed')" @click="openAddModal" class="new-task-btn">new task</button> -->
         <!-- <button v-if="activeTab == 'completed'" @click="deleteCompleted" class="new-task-btn">delete completed</button> -->
         <!-- <button @click="saveCompleted" class="save-btn">save</button> -->
-        <Button v-if="!(activeTab == 'completed')" @click="openAddModal">new task</Button>
+        <Button v-if="!(activeTab == 'completed')" @click="openAddModal"
+        class="new-task-btn"><i class="fa-solid fa-plus"></i></Button>
         <Button v-if="activeTab == 'completed'" @click="deleteCompleted">delete completed</Button>
-        <Button @click="saveCompleted">save</Button>
+        <Button class="save-btn" @click="saveCompleted">save</Button>
     </div>
     <div v-if="showAddTask">
         <AddTask @closeAddTask="closeAddModal"/>
@@ -37,6 +44,7 @@ import Button from '../components/Button.vue'
 
 
 import axios from 'axios'
+import InputField from '../components/InputField.vue'
 
 
 export default {
@@ -44,7 +52,8 @@ export default {
     AddTask,
     TaskLists,
     EditTask,
-    Button
+    Button,
+    InputField
 },
     data() {
         return {
@@ -180,18 +189,20 @@ export default {
 .task-container {
     max-width: 1400px;
     width: 90%;
-    background-color: antiquewhite;
+    background-color: #798897;
     margin: 100px auto;
+    border-radius: 10px;
 }
 .task-container .btn-container {
     display: flex;
     justify-content: end;
-    margin: 1em 1em 0;
+    padding: 0 1.5em 1.5em 1.5em;
 }
 .task-container .sub-container {
     display: flex;
     justify-content: space-between;
     padding: 1.5em;
+    padding-bottom: 0;
 }
 /* .sub-container .tab-container button,
 .task-container .btn-container button {
@@ -206,27 +217,62 @@ export default {
     cursor: pointer;
 } */
 .save-btn {
-    background-color: #0055B8;
-    color: white;
-
+    background-color:#FFF6F4;
+    border: #0055B8 1px solid;
+    color: #0055B8;
+    margin-left: .5em;
+    font-size: 1em;
 }
 .new-task-btn {
-    background-color: #10C6BB;
+    background-color:#008800;
+    color: #FFF6F4;
+    font-weight: 700;
+    font-size: 1em;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.new-task-btn i {
+    
 }
 .tab-btn {
-    background-color: rgba(176, 181, 179, .4);
+    box-shadow: 0px 4px 4px rgba(189, 186, 186, 0.246);
+    background-color: #FFF6F4;
+    margin: 0 .5em 0 0;
+    font-size: 1em;
 }
 .sub-container .tab-container .is-active {
-    background-color: rgba(220, 20, 60, .4)
+    background-color: #DC143C;
+    color: #FFF6F4;
 }
-.search-form input {
+.search-form {
+    display: flex;
     font-size: 1em;
-    padding: .4em .6em;
-    background: transparent;
+    padding: 0 .6em;
+    height: 40px;
+    align-items: center;
+    background: #FFF6F4;
     border: 1px solid crimson;
     border-radius: 5px;
+    color: black;
 }
-.search-form input:focus {
+.search-form input {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding-left: 0;
+}
+.search-form i {
+    color: #798897;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #798897;
+}
+
+.search-form:focus {
     outline: none;
     box-shadow: 0 0 10px #bbb;
 }

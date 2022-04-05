@@ -2,12 +2,17 @@
 <div class="backdrop-task">
     <div class="add-task center">
         <h1 class="title-text">Add Task</h1>
-        <div class="close-btn" @click="closeModal">X</div>
+        <div class="close-btn" @click="closeModal">
+        <i class="fas fa-times" @click="closeModal"></i></div>
         <form @submit.prevent="handleAddTask" class="add-task-form">
             <div class="input-box">
                 <label>Title:</label>
                 <input v-model="title" type="text">
+                <!-- <InputField
+                    v-model="title"
+                    label="title"/> -->
             </div>
+            
             <div class="input-box">
                 <label>Details:</label>
                 <textarea v-model="details" cols="30" rows="5"></textarea>
@@ -20,7 +25,9 @@
                 </select>
             </div>
             <div class="btn-container-add">
-                <button>Add Task</button>
+                <Button 
+                class="add-btn"
+                @click="handleAddTask">add task</Button>
             </div>
         </form>
     </div>
@@ -30,14 +37,16 @@
 <script>
 
 import axios from 'axios'
+import InputField from './InputField.vue'
+import Button from './Button.vue';
 
 export default {
     data() {
         return {
-            title: '',
-            details: '',
-            type: 'daily'
-        }
+            title: "",
+            details: "",
+            type: "daily"
+        };
     },
     methods: {
         handleAddTask() {
@@ -45,23 +54,24 @@ export default {
                 title: this.title,
                 details: this.details,
                 type: this.type
-            }
-            console.log(newTask)
-            axios.post('http://localhost:5000/add-task', newTask)
+            };
+            console.log(newTask);
+            axios.post("http://localhost:5000/add-task", newTask)
                 .then(res => {
-                    console.log(res)
-                    this.title = ''
-                    this.details = ''
-                    this.type = 'daily'
-                }, err => {
-                    console.log(err.response)
-                })
-                .catch(err => console.log(err))
+                console.log(res);
+                this.title = "";
+                this.details = "";
+                this.type = "daily";
+            }, err => {
+                console.log(err.response);
+            })
+                .catch(err => console.log(err));
         },
-         closeModal(){
-             this.$emit('closeAddTask')
-         }
-    }
+        closeModal() {
+            this.$emit("closeAddTask");
+        }
+    },
+    components: { InputField, Button }
 }
 </script>
 
@@ -74,11 +84,11 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    color: #000;
+    color:#798897;
 }
 .add-task {
-    background-color: white;
-    max-width: 600px;
+    background-color: #FFF6F4;
+    max-width: 450px;
     width: 90%;
     border-radius: 10px;
     padding: 1.5em;
@@ -90,7 +100,7 @@ export default {
     cursor: pointer;
 }
 .add-task .title-text {
-    margin: 0;
+    margin-bottom: .7em;
 }
 .add-task-form .btn-container-add {
     display: flex;
@@ -104,20 +114,20 @@ export default {
     font-size: 1em;
     text-align: center;
     border-radius: 5px;
-    width: 50%;
-    padding: .8em;
-    margin: 20px 0;
+    /* width: 50%;
+    padding: .8em; */
+    margin: 20px 0 0 0;
     cursor: pointer;
 }
 .add-task .add-task-form {
     margin: 0 1em;
 }
 .add-task-form .input-box {
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
 }
 .add-task-form .input-box label {
-    font-size: 1.3em;
+    font-size: 1em;
     padding-right: 1em;
     width: 30%;
 }
@@ -128,10 +138,13 @@ export default {
     font-size: 1em;
     padding: .5em;
     background: transparent;
-    border: 1px solid crimson;
-    border-radius: 5px;
-    margin: 1em 0;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid crimson;
+    /* border-radius: 5px; */
+    margin: .4em 0;
     font-weight: 500;
+    white-space: pre-wrap;
 }
 .add-task-form .input-box textarea {
     font-size: 1.5em;

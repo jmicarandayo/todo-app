@@ -3,18 +3,27 @@
      <div class="modal-sign-in center">
          <div class="sign-in">
              <h2>welcome</h2>
-             <button class="modal-close-btn" @click="closeModal">X</button>
+             <!-- <button class="modal-close-btn" @click="closeModal">X</button> -->
+             <i class="modal-close-btn fas fa-times" @click="closeModal"></i>
          </div>
          <form @submit.prevent="handleLogin" class="sign-in-form">
-             <input type="email" placeholder="Email" v-model="email">
-             <input type="password" placeholder="Password" v-model="password">
+             <!-- <input type="email" placeholder="Email" v-model="email"> -->
+             <!-- <input type="password" placeholder="Password" v-model="password"> -->
+             <InputField
+             v-model="email"
+             type="email"
+             label="email"/>
+             <InputField
+             v-model="password"
+             type="password"
+             label="password"/>
              <div class="error-display">
                  {{ error }}
              </div>
-             <button class="submit-btn">sign in</button>
+             <Button class="submit-btn">sign in</Button>
              <div class="links">
-                <p class="sign-up" @click="openSignUp">sing up</p>
-                <p>Forgot you password?</p>
+                <p class="sign-up-link" @click="openSignUp">sign up</p>
+                <p>Forgot your password?</p>
              </div>
          </form>
          
@@ -24,63 +33,66 @@
 <script>
 
 import axios from 'axios'
+import InputField from '../InputField.vue'
+import Button from '../Button.vue';
 
 export default {
-    props: [ 'closeSignInModal' ],
+    props: ["closeSignInModal"],
     data() {
         return {
-            email: '',
-            password: '',
-            error: ''
-        }
+            email: "",
+            password: "",
+            error: ""
+        };
     },
     methods: {
         closeModal() {
-            this.$emit('close')
+            this.$emit("close");
         },
         openSignUp() {
-            this.$emit('openSignUp')
+            this.$emit("openSignUp");
         },
         handleLogin() {
             const user = {
                 email: this.email,
                 password: this.password
-            }
-            console.log(user)
-            if(this.errorChecking()) {
-                this.error = ''
-                axios.post('http://localhost:5000/login', user)
+            };
+            console.log(user);
+            if (this.errorChecking()) {
+                this.error = "";
+                axios.post("http://localhost:5000/login", user)
                     .then(res => {
-                        if(res.status === 200) {
-                            localStorage.setItem('token', res.data.token)
-                            this.closeSignInModal()
-                            this.$router.push('/dashboard')
-                        }
+                    if (res.status === 200) {
+                        localStorage.setItem("token", res.data.token);
+                        this.closeSignInModal();
+                        this.$router.push("/dashboard");
                     }
-                    , err => {
-                        console.log(err.response)
-                        this.error = err.response.data.error
-                    }
-                    )
-                    // .catch(err => {
-                    //     console.log(err)
-                    // })
+                }, err => {
+                    console.log(err.response);
+                    this.error = err.response.data.error;
+                });
+                // .catch(err => {
+                //     console.log(err)
+                // })
             }
         },
         errorChecking() {
-            if( this.email == null || !this.validateEmail(this.email)) {
-                this.error = 'Please enter a valid email address'
-            } else if (this.password.length < 6) {
-                this.error = 'The password must be 6 characters long or more'
-            } else {
+            if (this.email == null || !this.validateEmail(this.email)) {
+                this.error = "Please enter a valid email address";
+            }
+            else if (this.password.length < 6) {
+                this.error = "The password must be 6 characters long or more";
+            }
+            else {
                 return true;
             }
         },
         validateEmail(email) {
-                        var re = /\S+@\S+\.\S+/;
-                        return re.test(email);
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
         }
-    }
+    },
+    components: { InputField, Button }
 }
 
 </script>
@@ -93,22 +105,26 @@ export default {
     height: 100%;
     position: fixed;
     top: 0;
-    color: #000;
+    color: #798897;
+    z-index: 10;
 }
 .modal-sign-in {
-    max-width: 600px;
+    max-width: 410px;
+    padding: 30px;
     width: 90%;
-    background-color: #fff;
+    background-color: #FFF6F4;
     border-radius: 20px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     
 }
 .modal-sign-in .terms-condition{
 display: flex;
 }
 .sign-in {
-    padding: 2em;
+    margin-bottom: 1.3em;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .sign-in-form .error-display {
     text-align: center;
@@ -117,38 +133,37 @@ display: flex;
 }
 .sign-in h2 {
     text-transform: capitalize;
-}
-.sign-in-form {
-    margin: 2em 3em;
+    font-size: 1.8em;
 }
 .sign-in-form input {
-    padding: .5em;
-    margin: .8em 0;
+    padding: .5em 0 0.5em 0.8em;
+    margin: .5em 0;
     font-size: 1em;
     width: 100%;
     border-radius: 5px;
 }
-.sign-in-form input:focus {
+.sign-in-form .sign-up-link {
+    text-transform: capitalize;
+    color: #DC143C;;
+    cursor: pointer;
 }
 .modal-sign-in .submit-btn {
-    text-transform: capitalize;
-    border: 0;
-    padding: .5em 2em;
-    background-color: aqua;
-    border-radius: 5px;
     width: 100%;
+    margin: 30px 0;
+    padding: 0.4em 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: #FFF6F4;
+    background-color: #DC143C;
 }
 .modal-sign-in .links {
-    padding: 1.5em 0;
     display: flex;
     justify-content: space-between;
 }
 .modal-close-btn {
     background: transparent;
     border: 0;
-    position: relative;
-    right: .5em;
     cursor: pointer;
-    padding: .5em;
+    font-size: 1.3em;
 }
 </style>

@@ -21,7 +21,7 @@
     <!-- <div v-else>
         <button class="logout-btn" @click="logout">logout</button>
     </div> -->
-   <Button v-else @click="logout">logout</Button>
+   <Button v-else @click="logout" class="logout-btn">logout</Button>
 </div>
 </div>
 </template>
@@ -35,6 +35,7 @@ export default {
     //     const local = localStorage.getItem('token')
     //     this.user = local
     // },
+    components: { Button },
     methods: {
         handleSignUpModal() {
             this.$emit("openSignUp");
@@ -47,8 +48,7 @@ export default {
             localStorage.clear();
             this.$router.push("/");
         }
-    },
-    components: { Button }
+    }
 }
 
 </script>
@@ -56,20 +56,26 @@ export default {
 <style>
 .navbar {
     background-color: #798897;
-    padding: 1em 1.5em;
+    padding: .5em 1.5em;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 .navbar .brand-title {
     color: #FFF6F4;
+    font-size: 1.5em;
+    font-weight: 700;
 }
 .navbar .user-menu .menu-link {
     text-decoration: none;
     color: #fff;
-    margin-right: 1em;
-    font-size: 1.2em;
+    font-size: 1em;
+    padding:.5em 1.2em;
+    border-radius: 10px;
 
+}
+.navbar .user-menu .menu-link:hover {
+    background-color: rgba(220, 20, 60, .15);
 }
 .navbar .navbar-links {
     display: flex;
@@ -77,7 +83,7 @@ export default {
 .navbar .navbar-links button {
     font-size: 1em;
     text-transform: capitalize;
-      cursor: pointer;
+    cursor: pointer;
 }
 .navbar .navbar-links .sign-in-btn 
 {
@@ -86,6 +92,9 @@ export default {
     color: #FFF6F4;
     box-shadow: none;
 }
+.navbar .navbar-links .sign-in-btn:hover {
+    background-color: rgba(220, 20, 60, .15);
+}
 .navbar .navbar-links .sign-up-btn,
 .navbar .navbar-links .logout-btn {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -93,7 +102,12 @@ export default {
     background-color: #FFF6F4;
     padding: .5em 1.2em;
     border-radius: 10px;
-    margin-left: 2em;
+    margin-left: .5em;
     color: #DC143C;
+}
+.navbar .navbar-links .logout-btn:hover,
+.navbar .navbar-links .sign-up-btn:hover {
+    background-color: #DC143C;
+    color: #FFF6F4;
 }
 </style>

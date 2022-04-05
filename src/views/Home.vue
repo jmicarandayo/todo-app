@@ -53,7 +53,24 @@ export default {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    position: relative;
   }
+  .hero .join-us-btn:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background: #798897;
+      border-radius: 10px;
+      z-index: -1;
+    }
+    .hero .join-us-btn:hover:before {
+      transform: scale(2);
+      transition: all 0.4s linear;
+      opacity: 0;
+    }
   /* .hero .join-us-btn:active {
     scale: .2;
   } */
