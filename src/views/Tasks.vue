@@ -2,26 +2,15 @@
 <div class="task-container">
     <div class="sub-container">
         <div class="tab-container">
-        <!-- <button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}">{{tab}}  </button> -->
         <Button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}" class="tab-btn"> {{tab}} </Button>
     </div>
     <form class="search-form">
         <input v-model="search" placeholder="Search" @keyup="searchTask">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <!-- <InputField
-            class="search"
-            v-model="search"
-            label="search"
-            @keyup="searchTask"/> -->
-        <!-- <p>{{ search }}</p>
-        <button>search</button> -->
     </form>  
     </div>
     <TaskLists :tasks="tasks" :type="type" @deleteTask="deleteTask" :showSelected="showSelected" @openEdit="openEdit"/>
     <div class="btn-container">
-        <!-- <button v-if="!(activeTab == 'completed')" @click="openAddModal" class="new-task-btn">new task</button> -->
-        <!-- <button v-if="activeTab == 'completed'" @click="deleteCompleted" class="new-task-btn">delete completed</button> -->
-        <!-- <button @click="saveCompleted" class="save-btn">save</button> -->
         <Button v-if="!(activeTab == 'completed')" @click="openAddModal"
         class="new-task-btn"><i class="fa-solid fa-plus"></i></Button>
         <Button v-if="activeTab == 'completed'" @click="deleteCompleted">delete completed</Button>
@@ -90,6 +79,18 @@ export default {
             console.log(this.email)
             this.$emit('loggedIn', this.email)
         })
+        this.emitter.on('goToType', taskType => {
+            if(taskType !== null || taskType !== '') {
+                this.activeTab = taskType
+                this.type = taskType
+                console.log('mounted', this.type, this.activeTab)
+            }else {
+                this.activeTab = 'all'
+                this.type = 'all'
+                console.log('fine')
+                }
+        })
+        
     },
     computed: {  
         showSelected() {
@@ -103,6 +104,7 @@ export default {
                 return task.type === this.type
             })
         },
+        
         
     },
     methods: {
@@ -204,18 +206,6 @@ export default {
     padding: 1.5em;
     padding-bottom: 0;
 }
-/* .sub-container .tab-container button,
-.task-container .btn-container button {
-    border: 0;
-    margin-right: .5em ;
-    font-size: 1em;
-    text-transform: capitalize;
-    padding: .5em 1.5em;
-    border-radius: 5px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    cursor: pointer;
-} */
 .save-btn {
     background-color:#FFF6F4;
     border: #0055B8 1px solid;
@@ -234,9 +224,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.new-task-btn i {
-    
 }
 .tab-btn {
     box-shadow: 0px 4px 4px rgba(189, 186, 186, 0.246);

@@ -21,7 +21,9 @@
     <!-- <div v-else>
         <button class="logout-btn" @click="logout">logout</button>
     </div> -->
-   <Button v-else @click="logout" class="logout-btn">logout</Button>
+   <Button v-else @click="logout" class="logout-btn">logout
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+   </Button>
 </div>
 </div>
 </template>
@@ -72,7 +74,10 @@ export default {
     font-size: 1em;
     padding:.5em 1.2em;
     border-radius: 10px;
-
+    
+}
+.navbar .user-menu .menu-link:first-child{
+    margin-left: -.5em;
 }
 .navbar .user-menu .menu-link:hover {
     background-color: rgba(220, 20, 60, .15);
@@ -104,6 +109,9 @@ export default {
     border-radius: 10px;
     margin-left: .5em;
     color: #DC143C;
+}
+.navbar .navbar-links .logout-btn i {
+    padding-left: .5em;
 }
 .navbar .navbar-links .logout-btn:hover,
 .navbar .navbar-links .sign-up-btn:hover {
