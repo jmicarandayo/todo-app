@@ -20,6 +20,9 @@
                     <option value="weekly">Weekly</option>
                 </select>
             </div>
+            <div class="error-display">
+                 {{ error }}
+             </div>
             <div class="btn-container-save">
                 <!-- <button @click="handleEditTask">Save</button> -->
                 <Button 
@@ -43,7 +46,8 @@ export default {
         return {
             title: "",
             details: "",
-            type: "daily"
+            type: "daily",
+            error:''
         };
     },
     mounted() {
@@ -61,20 +65,33 @@ export default {
                 details: this.details,
                 type: this.type
             };
-            console.log(this.idToEdit);
-            axios.put("http://localhost:5000/task/edit/" + this.idToEdit, editTask)
+            // console.log(this.idToEdit);
+            if(this.errorChecking()) {
+                axios.put("http://localhost:5000/task/edit/" + this.idToEdit, editTask)
                 .then(res => {
                 if (res.status === 200) {
                     location.reload();
                 }
-            }, err => {
-                console.log(err.response);
-            })
-                .catch(err => console.log(err));
+                }, err => {
+                    console.log(err.response);
+                })
+                    .catch(err => console.log(err));
+            }
         },
         closeModal() {
             this.$emit("closeEditTask");
-        }
+        },
+        errorChecking() {
+            if (this.title == null || this.title == '') {
+                this.error = "Title field should not be empty";
+            }
+            else if (this.details == null || this.details == '') {
+                this.error = "Details field should not be empty";
+            }
+            else {
+                return true;
+            }
+        },
     },
     components: { Button }
 }
@@ -131,6 +148,11 @@ export default {
     /* display: flex;
     align-items: center; */
 }
+.edit-task .edit-task-form .error-display {
+    text-align: center;
+    color: #940d0d;
+    font-size: .9em;
+}
 .edit-task-form .input-box label {
     font-size: 1.3em;
     padding-right: 1em;
@@ -140,8 +162,8 @@ export default {
 .edit-task-form .input-box textarea,
 .edit-task-form .input-box select {
     width: 100%;
-    font-size: 16px;
     padding: .5em;
+    font-size: 1.1rem;
     background: transparent;
     outline: none;
     border: none;
@@ -149,10 +171,10 @@ export default {
     /* border-radius: 5px; */
     margin: 1em 0;
 }
-.edit-task-form .input-box textarea {
-    font-size: 1.5em;
-    font-weight: 300;
-}
+/* .edit-task-form .input-box textarea,
+.edit-task-form .input-box select {
+    font-size: 1.1rem;
+} */
 .edit-task-form .input-box input:focus,
 .edit-task-form .input-box textarea:focus,
 .edit-task-form .input-box select:focus {

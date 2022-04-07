@@ -89,7 +89,7 @@ export default {
                 this.error = "Please enter a title";
             }
             else if (this.details == null || this.details == '') {
-                this.error = "Details should not be empty";
+                this.error = "Details field should not be empty";
             }
             else {
                 return true;
@@ -175,7 +175,7 @@ export default {
 .add-task-form .input-box textarea,
 .add-task-form .input-box select {
     width: 100%;
-    font-size: 1em;
+    font-size: 1.1rem;
     padding: .5em;
     background: transparent;
     outline: none;
@@ -187,8 +187,8 @@ export default {
     white-space: pre-wrap;
 }
 .add-task-form .input-box textarea {
-    font-size: 1.5em;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight:normal;
 }
 .add-task-form .input-box input:focus,
 .add-task-form .input-box textarea:focus,

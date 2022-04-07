@@ -271,7 +271,8 @@ export default {
     box-shadow: 0 0 10px #bbb;
 }
 @media (max-width: 750px) {
-    .tab-btn {
+    .tab-btn,
+    .search-form {
     margin-top: .5em;
     }
 }
