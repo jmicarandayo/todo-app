@@ -1,7 +1,7 @@
 <template>
 <div class="navbar">
     <div v-if="!user" class="brand-title">
-    DemoProj
+    TodoApp
     </div>
     <div v-else class="user-menu">
         <router-link class="menu-link" to="/dashboard">Dashboard</router-link>

@@ -4,7 +4,7 @@
         <div class="widget-box">
             <div class="widget-header-row">
                 <div class="widget-header">title</div>
-                <div class="widget-header">detail</div>
+                <div class="widget-header">details</div>
                 <div class="widget-header">completed</div>
             </div>
             <div v-for="(task, index) in widget" :key="task._id" class="widget-data-row">

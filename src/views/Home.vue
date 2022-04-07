@@ -1,7 +1,7 @@
 <template>
   <div class="hero">
       <h1 class="hero-title">This is a Demo Project</h1>
-      <p class="hero-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="hero-text">This demo app is called a todo app. The authorized user can create his daily or weekly tasks. He could also update the status of a specific task and then remove it if desired. </p>
       <!-- <button @click="openSignUp" class="join-us-btn">join us</button>  -->
       <Button @click="openSignUp" class="join-us-btn">join us</Button>
       <!-- <div class="parallax-section">
