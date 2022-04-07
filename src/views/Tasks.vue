@@ -13,7 +13,7 @@
     <div class="btn-container">
         <Button v-if="!(activeTab == 'completed')" @click="openAddModal"
         class="new-task-btn"><i class="fa-solid fa-plus"></i></Button>
-        <Button v-if="activeTab == 'completed'" @click="deleteCompleted">delete completed</Button>
+        <Button class="delete-completed-btn" v-if="activeTab == 'completed'" @click="deleteCompleted">delete completed</Button>
         <Button class="save-btn" @click="saveCompleted">save</Button>
     </div>
     <div v-if="showAddTask">
@@ -165,7 +165,7 @@ export default {
             location.reload()
         },
         saveCompleted() {
-            if (!window.confirm(`Are you sure you want to save completed task?`)) {
+            if (!window.confirm(`Are you sure you want to save the updates?`)) {
                 location.reload()
                 return;
             }
@@ -210,6 +210,13 @@ export default {
     background-color:#FFF6F4;
     border: #0055B8 1px solid;
     color: #0055B8;
+    margin-left: .5em;
+    font-size: 1em;
+}
+.delete-completed-btn {
+    background-color:#FFF6F4;
+    border: #DC143C 1px solid;
+    color: #DC143C;
     margin-left: .5em;
     font-size: 1em;
 }
@@ -262,5 +269,10 @@ export default {
 .search-form:focus {
     outline: none;
     box-shadow: 0 0 10px #bbb;
+}
+@media (max-width: 750px) {
+    .tab-btn {
+    margin-top: .5em;
+    }
 }
 </style>

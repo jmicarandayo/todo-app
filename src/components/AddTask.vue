@@ -24,6 +24,12 @@
                     <option value="weekly">Weekly</option>
                 </select>
             </div>
+            <div class="error-display">
+                 {{ error }}
+             </div>
+            <div class="success-display">
+                 {{ success }}
+             </div>
             <div class="btn-container-add">
                 <Button 
                 class="add-btn"
@@ -45,7 +51,9 @@ export default {
         return {
             title: "",
             details: "",
-            type: "daily"
+            type: "daily",
+            error: '',
+            success:null
         };
     },
     methods: {
@@ -55,21 +63,38 @@ export default {
                 details: this.details,
                 type: this.type
             };
-            console.log(newTask);
-            axios.post("http://localhost:5000/add-task", newTask)
-                .then(res => {
-                console.log(res);
-                this.title = "";
-                this.details = "";
-                this.type = "daily";
-            }, err => {
-                console.log(err.response);
-            })
-                .catch(err => console.log(err));
+            if(this.errorChecking()) {
+                axios.post("http://localhost:5000/add-task", newTask)
+                    .then(res => {
+                   if(res.status == 200) {
+                        console.log(res);
+                        this.title = "";
+                        this.details = "";
+                        this.type = "daily";
+                        this.error = ''
+                        this.success = res.data.message
+                   }
+                }, err => {
+                    console.log(err.response);
+                })
+                    .catch(err => console.log(err));
+            }
+            
         },
         closeModal() {
             this.$emit("closeAddTask");
-        }
+        },
+        errorChecking() {
+            if (this.title == null || this.title == '') {
+                this.error = "Please enter a title";
+            }
+            else if (this.details == null || this.details == '') {
+                this.error = "Details should not be empty";
+            }
+            else {
+                return true;
+            }
+        },
     },
     components: { InputField, Button }
 }
@@ -119,8 +144,23 @@ export default {
     margin: 20px 0 0 0;
     cursor: pointer;
 }
+.add-task .add-task-form .error-display {
+    text-align: center;
+    color: #940d0d;
+    font-size: .9em;
+}
 .add-task .add-task-form {
     margin: 0 1em;
+}
+.add-task .add-task-form .error-display {
+    text-align: center;
+    color: #940d0d;
+    font-size: .9em;
+}
+.add-task .add-task-form .success-display {
+    text-align: center;
+    color: #008800;
+    font-size: .9em;
 }
 .add-task-form .input-box {
     /* display: flex; */

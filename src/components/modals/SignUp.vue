@@ -20,7 +20,7 @@
              <div class="terms-condition">
                  <!-- <input type="checkbox" v-model="terms"> -->
                  <InputField 
-                    v-model="password"
+                    v-model="terms"
                     type="checkbox"/>
                  <span>I accept the <a href="/terms" class="terms-link"> terms and condition</a> </span> 
                  <a href=""></a>
@@ -140,6 +140,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.signup-form input {
+    border-radius: 5px;
 }
 .signup h2 {
     text-transform: capitalize;

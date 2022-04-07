@@ -14,7 +14,7 @@ export default {
             default: ''
         },
         modelValue: {
-            type: [String, Number],
+            type: [String, Number, Boolean],
             default: ''
         }
     }     
@@ -31,7 +31,7 @@ export default {
         padding: .5em 0 .5em .8em;
         margin: .5em 0;
         outline: transparent;
-        border-radius: 5px;
+        /* border-radius: 5px; */
         background-color: transparent;
     }
     ::-webkit-input-placeholder {

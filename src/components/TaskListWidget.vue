@@ -48,7 +48,8 @@ export default {
     margin: 0 1em;
     padding: 1em;
     color:#FFF6F4;
-    background-color: rgba(220, 20, 60, 1);
+    /* background-color: rgba(220, 20, 60, 1); */
+    background-color: #798897;
     border-radius: 20px;
 }
 .widget-container:hover {
@@ -78,5 +79,10 @@ export default {
     border-radius: 10px;
     padding: .5em;
     margin: .5em 0;
+}
+@media (max-width: 700px){
+    .widget-container {
+        margin-bottom: 3em;
+    }
 }
 </style>

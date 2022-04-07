@@ -2,7 +2,8 @@
 <div class="backdrop-task">
     <div class="edit-task center">
         <h1 class="title-text">Edit Task</h1>
-        <div class="close-btn" @click="closeModal">X</div>
+        <div class="close-btn" @click="closeModal">
+        <i class="fas fa-times" @click="closeModal"></i></div>
         <form @submit.prevent="handleEditTask" class="edit-task-form">
             <div class="input-box">
                 <label>Title:</label>

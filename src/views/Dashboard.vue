@@ -68,7 +68,6 @@ export default {
 .dashboard-container {
     width: 95%;
     margin: 0 auto;
-    color: #798897;
 }
 .dashboard-container .widgets {
     display: flex;
@@ -76,7 +75,13 @@ export default {
 }
 .dashboard-container .banner-box{
     text-align: center;
-    margin: 1.5em auto;
+    margin: 2em auto;
+    color: #DC143C;
 }
 
+@media (max-width: 700px){
+    .dashboard-container .widgets {
+        flex-direction: column;
+    }
+}
 </style>
