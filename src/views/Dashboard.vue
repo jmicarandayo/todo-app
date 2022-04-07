@@ -66,6 +66,7 @@ export default {
 
 <style>
 .dashboard-container {
+    padding: 50px 0;
     width: 95%;
     margin: 0 auto;
 }

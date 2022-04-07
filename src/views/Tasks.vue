@@ -192,7 +192,7 @@ export default {
     max-width: 1400px;
     width: 95%;
     background-color: #798897;
-    margin: 100px auto;
+    margin: 150px auto;
     border-radius: 10px;
 }
 .task-container .btn-container {
@@ -274,9 +274,6 @@ export default {
     .tab-btn,
     .search-form {
     margin-top: .5em;
-    }
-    .task-container {
-        margin: 50px auto;
     }
 }
 </style>

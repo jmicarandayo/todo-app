@@ -60,6 +60,7 @@ export default {
     margin-bottom: .5em;
 }
 .widget-box .widget-header-row {
+    font-size: 1.2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     text-transform: capitalize;

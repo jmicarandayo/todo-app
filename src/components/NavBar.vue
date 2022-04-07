@@ -84,6 +84,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 10px 4px 4px rgba(121, 136, 151, 0.25);
 }
 .navbar .brand-title {
     color: #FFF6F4;

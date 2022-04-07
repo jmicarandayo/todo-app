@@ -1,12 +1,5 @@
 <template>
   <div>
-    <!-- <div class="table">
-   <div v-for="task in tasks" :key="task._id" class="task">
-        <p>{{task.title}}</p>
-        <p>{{task.details}}</p>
-        <p>{{task.type}}</p>
-    </div>
-    </div> -->
     <div class="table-container">
         <div class="table-caption"><p>{{type}} task</p></div>
             <div class="table-header">
@@ -21,8 +14,6 @@
                 <div class="table-body-cell">{{ task.details }}</div>
                 <div class="table-body-cell task">{{ task.type }}</div>
                 <div class="table-body-cell">
-                    <!-- <button @click="openEdit(task._id)">Edit</button>
-                    <button @click="deleteTask(task.title, task._id)">Delete</button> -->
                     <Button class="edit-btn" @click="openEdit(task._id)"><i class="fa-solid fa-pen-to-square"></i></Button>
                     <Button class="delete-btn" @click="deleteTask(task.title, task._id)"><i class="fa-solid fa-trash"></i></Button>
                 </div>
@@ -52,9 +43,6 @@ export default {
 </script>
 
 <style>
-/* .table-body-cell:nth-last-child(1) {
-    text-align: center;
-} */
 .table-container {
     width: 100%;
     background-color: #798897;
