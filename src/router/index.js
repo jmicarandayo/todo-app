@@ -16,7 +16,7 @@ const routes = [
     meta: {auth: true}
   },
   {
-    path: '/tasks',
+    path: '/tasks/:type',
     name: 'Tasks',
     component: Tasks,
     meta: {auth: true}
@@ -31,10 +31,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if(localStorage.getItem('token') && !to.meta.auth){
     next('/dashboard')
-    console.log('logged in')
+    // console.log('logged in')
   } else {
     next();
-    console.log('home')
+    // console.log('home')
   }
 })
 

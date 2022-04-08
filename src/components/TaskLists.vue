@@ -93,6 +93,7 @@ export default {
     padding: 10px;
     /* margin: 5px; */
     background-color: #FFF6F4;
+    word-wrap:break-word;
     white-space: pre-wrap;
 }
 .table-body-cell.title,

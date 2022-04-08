@@ -1,9 +1,11 @@
 <template>
 <div class="task-container">
     <div class="sub-container">
-        <div class="tab-container">
-        <Button @click="setType(tab)" v-for="tab in tabs"  :class="{'is-active' : activeTab === tab}" class="tab-btn"> {{tab}} </Button>
-    </div>
+        <div class="tab-container" >
+        <router-link v-for="tab in tabs" :key="tab" :to="{name:'Tasks', params:{type: tab}}">
+            <Button @click="setType(tab)"   :class="{'is-active' : activeTab === tab}" class="tab-btn"> {{tab}} </Button>
+        </router-link>
+        </div>
     <form class="search-form">
         <input v-model="search" placeholder="Search" @keyup="searchTask">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -49,21 +51,22 @@ export default {
             tabs:['all', 'daily', 'weekly', 'completed'],
             tasks: [],
             originalTask:null,
-            type: 'all',
-            activeTab: 'all',
+            type: this.$route.params.type,
+            activeTab: this.$route.params.type,
             search:null,
             searchedTask:null,
             idToEdit: null,
             task:null,
             showAddTask: false,
             showEditTask: false,
-            email: null
+            email: null,
+            parameter: this.$route.params.type
         }
     },
     created(){
         if(localStorage.getItem('token') === null) {
         this.$router.push('/')
-        }
+        } 
     },
     mounted() {
         axios.get('http://localhost:5000/tasks')
@@ -79,17 +82,17 @@ export default {
             console.log(this.email)
             this.$emit('loggedIn', this.email)
         })
-        this.emitter.on('goToType', taskType => {
-            if(taskType !== null || taskType !== '') {
-                this.activeTab = taskType
-                this.type = taskType
-                console.log('mounted', this.type, this.activeTab)
-            }else {
-                this.activeTab = 'all'
-                this.type = 'all'
-                console.log('fine')
-                }
-        })
+        // this.emitter.on('goToType', taskType => {
+        //     if(taskType !== null || taskType !== '') {
+        //         this.activeTab = taskType
+        //         this.type = taskType
+        //         console.log('mounted', this.type, this.activeTab)
+        //     }else {
+        //         this.activeTab = 'all'
+        //         this.type = 'all'
+        //         console.log('fine')
+        //         }
+        // })
         
     },
     computed: {  
@@ -111,13 +114,9 @@ export default {
         searchTask() {
             this.searchedTask = this.originalTask.filter(task => task.title.toLowerCase().includes(this.search))
             if(this.search){
-                console.log(this.searchedTask.length)
                 this.tasks = this.searchedTask
-                console.log('current',this.tasks)  
-                console.log('searched',this.searchedTask)  
             } else{
                 this.tasks = this.originalTask
-                console.log('oroginal',this.tasks)
             }
         },
         setType(type) {

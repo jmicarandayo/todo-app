@@ -5,7 +5,7 @@
     </div>
     <div v-else class="user-menu">
         <router-link class="menu-link" to="/dashboard">Dashboard</router-link>
-        <router-link class="menu-link" to="/tasks">Tasks</router-link>
+        <router-link class="menu-link" :to="{name: 'Tasks', params: {type: 'all'}}" >Tasks</router-link>
     </div>
     <div class="navbar-links">
         <div @click="handleMenu" v-if="!user">

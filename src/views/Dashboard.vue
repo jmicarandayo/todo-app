@@ -54,7 +54,7 @@ export default {
         goTo(label) {
             this.taskType = label
             console.log(this.taskType)
-            this.$router.push('/tasks')
+            this.$router.push('/tasks/'+ this.taskType)
             this.emitter.emit('goToType', this.taskType )
         }
     }
