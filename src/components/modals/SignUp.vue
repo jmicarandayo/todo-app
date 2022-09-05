@@ -18,10 +18,10 @@
                  {{ error }}
              </div>
              <div class="terms-condition">
-                 <!-- <input type="checkbox" v-model="terms"> -->
-                 <InputField 
+                 <input type="checkbox" v-model="terms">
+                 <!-- <InputField 
                     v-model="terms"
-                    type="checkbox"/>
+                    type="checkbox"/> -->
                  <span>I accept the <a href="/terms" class="terms-link"> terms and condition</a> </span> 
                  <a href=""></a>
              </div>

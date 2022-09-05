@@ -20,7 +20,10 @@
             sign up
         </button> -->
         <Button @click="handleSignInModal" class="sign-in-btn">sign in</Button>
-        <Button @click="handleSignUpModal" class="sign-up-btn">sign up</Button>
+        <Button @click="handleSignUpModal" class="sign-up-btn">sign up
+        <i class="fa-solid fa-right"></i>
+        </Button>
+        <i class="fa-solid fa-right"></i>
         </div>
         <!-- <div v-else>
             <button class="logout-btn" @click="logout">logout</button>
